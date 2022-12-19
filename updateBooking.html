@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="post.css" />
+    <title>Update Bookings</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Event Management System</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNavDarkDropdown"
+          aria-controls="navbarNavDarkDropdown"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
+          <ul class="navbar-nav">
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                POST
+              </a>
+              <ul class="dropdown-menu dropdown-menu-dark">
+                <li><a class="dropdown-item" href="users.html">User</a></li>
+                <li><a class="dropdown-item" href="events.html">Event</a></li>
+                <li>
+                  <a class="dropdown-item" href="bookings.html">Booking</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+          <ul class="navbar-nav">
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                GET
+              </a>
+              <ul class="dropdown-menu dropdown-menu-dark">
+                <li><a class="dropdown-item" href="showusers.html">User</a></li>
+                <li>
+                  <a class="dropdown-item" href="showevents.html">Event</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="showbookings.html">Booking</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+          <ul class="navbar-nav">
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                PUT
+              </a>
+              <ul class="dropdown-menu dropdown-menu-dark">
+                <li>
+                  <a class="dropdown-item" href="updateUser.html">User</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="updateEvent.html">Event</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="updateBooking.html">Booking</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container">
+      <div>
+        <h1>Update Booking</h1>
+        <label for="id">Bookings_id: </label>
+        <input type="text" id="id" /><br /><br />
+        <label for="user_id">User_id: </label>
+        <input type="text" id="user_id" /><br /><br />
+        <label for="event_id">Event_id: </label>
+        <input type="text" id="event_id" /><br /><br />
+        <label for="tickets">Tickets Released: </label>
+        <input type="text" id="tickets" /><br /><br />
+        <button onclick="save()">Save</button>
+      </div>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      function save() {
+        let bookingsId = document.getElementById("id").value;
+        let userid = document.getElementById("user_id").value;
+        let eventid = document.getElementById("event_id").value;
+        let ticketsReleased = document.getElementById("tickets").value;
+
+        let user = {
+          id: userid,
+        };
+        let event = {
+          id: eventid,
+        };
+
+        let booking = { user, event, ticketsReleased, bookingsId };
+
+        console.log(booking);
+
+        document.getElementById("id").value = "";
+        document.getElementById("user_id").value = "";
+        document.getElementById("event_id").value = "";
+        document.getElementById("tickets").value = "";
+
+        fetch("http://localhost:8080/Bookings/" + bookingsId, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(booking),
+        })
+          .then((res) => {
+            return res.json();
+          })
+          .then((data) => console.log(data))
+          .catch((error) => console.log("ERROR"));
+      }
+    </script>
+  </body>
+</html>
